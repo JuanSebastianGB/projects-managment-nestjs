@@ -1,4 +1,6 @@
 .env
+.develop.env
+
 
 # compiled output
 /dist
