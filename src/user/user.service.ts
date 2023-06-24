@@ -3,14 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ErrorManager } from 'src/utils/error.manager';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserDto } from './dto/user.dto';
+import { UserDto, UserToProjectDto } from './dto/user.dto';
 import { UserEntity } from './entities/user.entity';
+import { UsersProjectsEntity } from './entities/userProject.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(UsersProjectsEntity)
+    private readonly userProjectRepository: Repository<UsersProjectsEntity>,
   ) {}
 
   public async createUser(body: UserDto): Promise<UserEntity> {
@@ -46,6 +49,8 @@ export class UserService {
       const user: UserEntity = await this.userRepository
         .createQueryBuilder('user')
         .where({ id })
+        .leftJoinAndSelect('user.projects', 'projects')
+        .leftJoinAndSelect('projects.project', 'project')
         .getOne();
       if (!user)
         throw new ErrorManager({
@@ -74,6 +79,7 @@ export class UserService {
       throw ErrorManager.createSignatureError(error.message);
     }
   }
+
   public async deleteUser(id: string): Promise<DeleteResult | undefined> {
     try {
       const user: DeleteResult = await this.userRepository.delete(id);
@@ -83,6 +89,14 @@ export class UserService {
           message: 'was not possible to delete the user',
         });
       return user;
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
+
+  public async addToProject(body: UserToProjectDto) {
+    try {
+      return await this.userProjectRepository.save(body);
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }

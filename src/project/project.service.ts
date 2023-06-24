@@ -46,6 +46,8 @@ export class ProjectService {
       const project: ProjectEntity = await this.projectRepository
         .createQueryBuilder('project')
         .where({ id })
+        .leftJoinAndSelect('project.users', 'users')
+        .leftJoinAndSelect('users.user', 'user')
         .getOne();
       if (!project)
         throw new ErrorManager({
