@@ -8,5 +8,6 @@ declare namespace NodeJS {
     DB_HOST: string;
     DB_PORT: number;
     SALT_ROUNDS: number;
+    JWT_SECRET: string;
   }
 }

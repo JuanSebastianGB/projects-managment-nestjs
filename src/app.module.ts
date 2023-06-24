@@ -6,6 +6,9 @@ import { AppService } from './app.service';
 import { dataSourceConfig } from './config/data.source';
 import { ProjectModule } from './project/project.module';
 import { UserModule } from './user/user.module';
+import { AuthController } from './auth/controllers/auth.controller';
+import { AuthService } from './auth/services/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,8 +21,10 @@ import { UserModule } from './user/user.module';
     UserModule,
 
     ProjectModule,
+
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AuthController],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}
