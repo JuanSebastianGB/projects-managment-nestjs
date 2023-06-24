@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { ErrorManager } from 'src/utils/error.manager';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -18,6 +19,10 @@ export class UserService {
 
   public async createUser(body: UserDto): Promise<UserEntity> {
     try {
+      body.password = await bcrypt.hash(
+        body.password,
+        +process.env.SALT_ROUNDS,
+      );
       const user: UserEntity = await this.userRepository.save(body);
       if (!user)
         throw new ErrorManager({
