@@ -61,13 +61,13 @@ export class ProjectService {
   public async updateProject(
     id: string,
     body: UpdateProjectDto,
-  ): Promise<UpdateResult> {
+  ): Promise<UpdateResult | undefined> {
     try {
       const project: UpdateResult = await this.projectRepository.update(
         id,
         body,
       );
-      if (!project)
+      if (project.affected === 0)
         throw new ErrorManager({
           type: 'BAD_REQUEST',
           message: 'was not possible to update the project',
