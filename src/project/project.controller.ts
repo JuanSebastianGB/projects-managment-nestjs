@@ -23,9 +23,13 @@ import { ProjectService } from './project.service';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @Post()
-  public async createProject(@Body() body: ProjectDto) {
-    return await this.projectService.createProject(body);
+  @RolesDecorator('CREATOR')
+  @Post(':ownerId')
+  public async createProject(
+    @Param('ownerId', ParseUUIDPipe) ownerId: string,
+    @Body() body: ProjectDto,
+  ) {
+    return await this.projectService.createProject(body, ownerId);
   }
 
   @RolesDecorator('ADMIN')

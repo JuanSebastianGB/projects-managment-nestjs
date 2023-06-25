@@ -20,7 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "orm:init": "typeorm-ts-node-esm -d ./src/config/data.source.ts",
-    "m:gen": "set NODE_ENV=develop&& pnpm orm:init migration:generate",
+    "m:gen": "set NODE_ENV=develop&& pnpm orm:init migration:generate ./src/migrations/init",
     "m:run": "set NODE_ENV=develop&& pnpm orm:init migration:run"
   },
   "dependencies": {

@@ -4,7 +4,7 @@
 
 # Creating migrations
 
-pnpm m:gen ./src/migrations/init
+pnpm m:gen
 
 # Running migrations
 

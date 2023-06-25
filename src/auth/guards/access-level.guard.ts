@@ -51,7 +51,7 @@ export class AccessLevelGuard implements CanActivate {
         else throw new UnauthorizedException('Not authorized user');
       }
 
-    if (userRole === ROLES.ADMIN) return true;
+    if (userRole === ROLES.ADMIN || userRole === ROLES.CREATOR) return true;
 
     const user = await this.userService.findUserById(userId);
 
