@@ -6,6 +6,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessLevelDecorator } from 'src/auth/decorators/access-level.decorator';
 import { AccessLevelGuard } from 'src/auth/guards/access-level.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
@@ -13,6 +14,8 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { TaskDto } from '../dto/task.dto';
 import { TasksService } from '../services/tasks.service';
 
+@ApiTags('Task')
+@ApiBearerAuth()
 @UseGuards(AuthGuard, RolesGuard, AccessLevelGuard)
 @Controller('tasks')
 export class TasksController {

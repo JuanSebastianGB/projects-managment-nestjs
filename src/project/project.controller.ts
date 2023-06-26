@@ -9,6 +9,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessLevelDecorator } from 'src/auth/decorators/access-level.decorator';
 import { RolesDecorator } from 'src/auth/decorators/roles.decorator';
 import { AccessLevelGuard } from 'src/auth/guards/access-level.guard';
@@ -18,6 +19,8 @@ import { ProjectDto } from './dto/project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { ProjectService } from './project.service';
 
+@ApiTags('Project')
+@ApiBearerAuth()
 @UseGuards(AuthGuard, RolesGuard, AccessLevelGuard)
 @Controller('project')
 export class ProjectController {
@@ -54,6 +57,7 @@ export class ProjectController {
     return await this.projectService.updateProject(id, body);
   }
 
+  @AccessLevelDecorator('OWNER')
   @Delete(':projectId')
   public async deleteProject(
     @Param('projectId', new ParseUUIDPipe()) id: string,
