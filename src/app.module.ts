@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { AuthController } from './auth/controllers/auth.controller';
 import { AuthService } from './auth/services/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
@@ -23,6 +24,8 @@ import { AuthModule } from './auth/auth.module';
     ProjectModule,
 
     AuthModule,
+
+    TaskModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService],

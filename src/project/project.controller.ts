@@ -24,7 +24,7 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @RolesDecorator('CREATOR')
-  @Post(':ownerId')
+  @Post('owner/:ownerId')
   public async createProject(
     @Param('ownerId', ParseUUIDPipe) ownerId: string,
     @Body() body: ProjectDto,
@@ -32,13 +32,12 @@ export class ProjectController {
     return await this.projectService.createProject(body, ownerId);
   }
 
-  @RolesDecorator('ADMIN')
   @Get()
   public async findProjects() {
     return await this.projectService.findProjects();
   }
 
-  @AccessLevelDecorator(50)
+  @AccessLevelDecorator('OWNER')
   @Get(':projectId')
   public async findProjectById(
     @Param('projectId', new ParseUUIDPipe()) id: string,
@@ -46,7 +45,7 @@ export class ProjectController {
     return await this.projectService.findProjectById(id);
   }
 
-  @AccessLevelDecorator(50)
+  @AccessLevelDecorator('OWNER')
   @Put(':projectId')
   public async updateProject(
     @Param('projectId', new ParseUUIDPipe()) id: string,

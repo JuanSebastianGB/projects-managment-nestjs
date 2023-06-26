@@ -79,7 +79,7 @@ export class AuthService {
     delete rest.password;
     return {
       accessToken: this.signJwt({ payload, expires: '1h' }),
-      user: { id, rest },
+      user: { id, ...rest },
     };
   }
 }
