@@ -65,7 +65,7 @@ export class AccessLevelGuard implements CanActivate {
       );
     }
 
-    if (accessLevel !== userExistInProject.accessLevel)
+    if (accessLevel > userExistInProject.accessLevel)
       throw new UnauthorizedException(
         'You are not authorized to access this project',
       );
